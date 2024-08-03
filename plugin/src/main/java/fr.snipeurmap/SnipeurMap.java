@@ -26,6 +26,7 @@ public final class SnipeurMap extends JavaPlugin {
             @Override
             public void run() {
                 //la fonction à exécuter
+
             }
         }, 0, delay);
 
@@ -34,6 +35,10 @@ public final class SnipeurMap extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        getLogger().info("Plugin SnipeurMap arrêté !");
+
+        //on arrête le timer
+        timerSendRequest.cancel();
+
     }
 }
