@@ -44,6 +44,7 @@ public final class SnipeurMap extends JavaPlugin {
 
 
 
+    
     @Override
     public void onDisable() {
         getLogger().info("Plugin SnipeurMap arrêté !");
@@ -51,5 +52,56 @@ public final class SnipeurMap extends JavaPlugin {
         //on arrête le timer
         timerSendRequest.cancel();
 
+    }
+
+
+
+    private static class PlayerInfo {
+        /* PlayerInfo récuperer les données des joueurs
+         * */
+        private double x;
+        private double y;
+        private double z;
+        private String nom;
+
+        private String uuid;
+
+        public PlayerInfo(double x, double y, double z, String nom, String uuid) {
+            // Constructeur de la classe PlayerInfo
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.uuid = uuid;
+            this.nom = nom;
+        }
+
+        public double getX() {
+            // Retourner la position X du joueur
+            return x;
+        }
+
+        public double getY() {
+            // Retourner la position Y du joueur
+            return y;
+        }
+
+        public double getZ() {
+
+
+            // Retourner la position Z du joueur
+            return z;
+        }
+
+        public String getNom() {
+
+            //  Retourner le nom du joueur
+            return nom;
+        }
+
+
+        public String getuuid(){
+            return uuid;
+
+        }
     }
 }
