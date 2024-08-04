@@ -38,10 +38,69 @@ public final class SnipeurMap extends JavaPlugin {
 
         // Créer une liste pour stocker les informations des joueurs
         List<PlayerInfo> playerInfoList = new ArrayList<>();
-           //NE PAS OUBLIER DE FAIRE LA CLASSE PLAYERINFO
+        for (Player player : players) {
+            // Récupérer les positions du joueur
+            double joueurX = player.getLocation().getX();
+            double joueurY = player.getLocation().getY();
+            double joueurZ = player.getLocation().getZ();
+            // Récupérer le nom du joueur
+
+            String joueurNom = player.getName();
+            String joueurUUID = player.getUniqueId().toString();
+
+            // Ajouter les informations du joueur à la liste
+            PlayerInfo playerInfo = new PlayerInfo(joueurX, joueurY, joueurZ, joueurNom,joueurUUID);
+            // Ajouter les informations du joueur à la liste
+            playerInfoList.add(playerInfo);
+        }
+           
            return null;
        }
 
+private String convertListToJson(List<PlayerInfo> playerInfoList) {
+        // Créer un StringBuilder pour construire la chaîne JSON
+        StringBuilder sb = new StringBuilder();
+        // Ajouter le début de la chaîne JSON
+        sb.append("[");
+        // Pour chaque joueur
+        for (int i = 0; i < playerInfoList.size(); i++) {
+            // Récupérer les informations du joueur
+            PlayerInfo playerInfo = playerInfoList.get(i);
+            // Ajouter les informations du joueur à la chaîne JSON
+            /* Exemple du tableau construit
+             *  [
+             *  {"x": 0.0, "y": 0.0, "z": 0.0, "nom": "Snipeur060"}
+             * ]
+             *  */
+            sb.append("{\"x\": ")
+                    // data x position
+                    .append(playerInfo.getX())
+                    .append(", \"y\": ")
+                    //data y position
+                    .append(playerInfo.getY())
+                    .append(", \"z\": ")
+                    //data z position
+                    .append(playerInfo.getZ())
+                    .append(", \"nom\": \"")
+                    //data name
+                    .append(playerInfo.getNom())
+                    //append player uuid
+                    .append("\", \"uuid\": \"")
+                    .append(playerInfo.getuuid())
+                    // end of json
+                    .append("\"}");
+            // Ajouter une virgule si ce n'est pas le dernier joueur
+            if (i < playerInfoList.size() - 1) {
+                // comme du python
+                sb.append(", ");
+            }
+
+        }
+        // Ajouter la fin de la chaîne JSON
+        sb.append("]");
+        //
+        return sb.toString();
+    }
 
 
     
