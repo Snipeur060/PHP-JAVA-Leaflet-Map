@@ -33,7 +33,12 @@ public final class SnipeurMap extends JavaPlugin {
     }
 
        private String sendDataToApi() {
+        // Récupérer tous les joueurs connectés
+        Collection<? extends Player> players = Bukkit.getOnlinePlayers();
 
+        // Créer une liste pour stocker les informations des joueurs
+        List<PlayerInfo> playerInfoList = new ArrayList<>();
+           //NE PAS OUBLIER DE FAIRE LA CLASSE PLAYERINFO
            return null;
        }
 
