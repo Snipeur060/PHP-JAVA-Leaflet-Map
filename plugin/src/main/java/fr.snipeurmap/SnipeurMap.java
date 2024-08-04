@@ -25,19 +25,17 @@ public final class SnipeurMap extends JavaPlugin {
             @Override
             public void run() {
                 //la fonction à exécuter
-
+                sendDataToApi();
             }
         }, 0, delay);
 
 
     }
 
-    private String sendRequest() {
+       private String sendDataToApi() {
 
-        //On récupere tous les joueurs connectés
-        Collection<? extends org.bukkit.entity.Player> players = getServer().getOnlinePlayers();
-
-    }
+           return null;
+       }
 
 
 
