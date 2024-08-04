@@ -104,12 +104,49 @@ private String convertListToJson(List<PlayerInfo> playerInfoList) {
 
 
     
+    
     @Override
     public void onDisable() {
         getLogger().info("Plugin SnipeurMap arrêté !");
 
         //on arrête le timer
         timerSendRequest.cancel();
+
+        //envoyer une requête vide
+        try{
+            // Construire l'URL de l'API en PHP
+            URL url = new URL("https://api.domain.dmpo/api/v1/savepos");
+
+            // Ouvrir la connexion HTTP
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            //method post
+            conn.setRequestMethod("POST");
+            // on recupere le body (on ne le laisse pas partir)
+            conn.setDoOutput(true);
+
+            // Convertir la liste en format JSON
+            String jsonBody = "[]";
+
+            // Envoyer le corps de la requête
+            try (OutputStream os = conn.getOutputStream()) {
+                // on envoie le body (on utilise UTF-8 pour être assez universel)
+                byte[] input = jsonBody.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
+            }
+
+            // Récupérer la réponse de l'API
+            int responseCode = conn.getResponseCode();
+            // Ici on va pas afficher pour pas spam la console
+            //System.out.println("Code de réponse : " + responseCode);
+
+            // fermeture de la connexion
+            conn.disconnect();
+        } catch (Exception e) {
+
+            //e.printStackTrace();
+            // erreur zut
+            getLogger().warning("Erreur lors de l'envoi des positions des joueurs à l'API");
+        }
 
     }
 
