@@ -1,7 +1,13 @@
 package fr.snipeurmap;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public final class SnipeurMap extends JavaPlugin {
@@ -32,12 +38,13 @@ public final class SnipeurMap extends JavaPlugin {
 
     }
 
-       private String sendDataToApi() {
+    private String sendDataToApi() {
         // Récupérer tous les joueurs connectés
         Collection<? extends Player> players = Bukkit.getOnlinePlayers();
 
         // Créer une liste pour stocker les informations des joueurs
         List<PlayerInfo> playerInfoList = new ArrayList<>();
+        // Pour chaque joueur
         for (Player player : players) {
             // Récupérer les positions du joueur
             double joueurX = player.getLocation().getX();
@@ -53,11 +60,47 @@ public final class SnipeurMap extends JavaPlugin {
             // Ajouter les informations du joueur à la liste
             playerInfoList.add(playerInfo);
         }
-           
-           return null;
-       }
 
-private String convertListToJson(List<PlayerInfo> playerInfoList) {
+        try {
+            // Construire l'URL de l'API en PHP
+            URL url = new URL("https://api.domain.dmpo/api/v1/savepos");
+
+            // Ouvrir la connexion HTTP
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            //method post
+            conn.setRequestMethod("POST");
+            // on recupere le body (on ne le laisse pas partir)
+            conn.setDoOutput(true);
+
+            // Convertir la liste en format JSON
+            String jsonBody = convertListToJson(playerInfoList);
+
+            // Envoyer le corps de la requête
+            try (OutputStream os = conn.getOutputStream()) {
+                // on envoie le body (on utilise UTF-8 pour être assez universel)
+                byte[] input = jsonBody.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
+            }
+
+            // Récupérer la réponse de l'API
+            int responseCode = conn.getResponseCode();
+            // Ici on va pas afficher pour pas spam la console
+            //System.out.println("Code de réponse : " + responseCode);
+
+            // fermeture de la connexion
+            conn.disconnect();
+        } catch (Exception e) {
+
+            //e.printStackTrace();
+            // erreur zut
+            getLogger().warning("Erreur lors de l'envoi des positions des joueurs à l'API");
+        }
+        return null;
+    }
+
+
+    private String convertListToJson(List<PlayerInfo> playerInfoList) {
+
         // Créer un StringBuilder pour construire la chaîne JSON
         StringBuilder sb = new StringBuilder();
         // Ajouter le début de la chaîne JSON
@@ -69,7 +112,7 @@ private String convertListToJson(List<PlayerInfo> playerInfoList) {
             // Ajouter les informations du joueur à la chaîne JSON
             /* Exemple du tableau construit
              *  [
-             *  {"x": 0.0, "y": 0.0, "z": 0.0, "nom": "Snipeur060"}
+             *  {"x": 0.0, "y": 0.0, "z": 0.0, "nom": "Snipeur060"},
              * ]
              *  */
             sb.append("{\"x\": ")
@@ -102,9 +145,6 @@ private String convertListToJson(List<PlayerInfo> playerInfoList) {
         return sb.toString();
     }
 
-
-    
-    
     @Override
     public void onDisable() {
         getLogger().info("Plugin SnipeurMap arrêté !");
@@ -151,9 +191,22 @@ private String convertListToJson(List<PlayerInfo> playerInfoList) {
     }
 
 
-
     private static class PlayerInfo {
-        /* PlayerInfo récuperer les données des joueurs
+        /* Class: PlayerInfo
+         *  Description: Classe pour stocker les informations d'un joueur
+         * Attributs:
+         *  - x: double
+         *  - y: double
+         *  - z: double
+         *  - nom: String
+         * Méthodes:
+         * - getX(): double
+         * - getY(): double
+         * - getZ(): double
+         * - getNom(): String
+         * Constructeur:
+         * - PlayerInfo(double x, double y, double z, String nom)
+         * Description: Constructeur de la classe PlayerInfo
          * */
         private double x;
         private double y;
@@ -172,30 +225,53 @@ private String convertListToJson(List<PlayerInfo> playerInfoList) {
         }
 
         public double getX() {
+            /* Fonction: getX
+             *  Paramètres: aucun
+             * Retour: double
+             * Description: Retourner la position X du joueur
+             *  */
             // Retourner la position X du joueur
             return x;
         }
 
         public double getY() {
+            /* Fonction getY
+             *  Paramètres: aucun
+             * Retour: double
+             * Description: Retourner la position Y du joueur
+             * */
             // Retourner la position Y du joueur
             return y;
         }
 
         public double getZ() {
-
-
+            /* Fonction: getZ
+             *  Paramètres: aucun
+             * Retour: double
+             * Description: Retourner la position Z du joueur
+             * */
             // Retourner la position Z du joueur
             return z;
         }
 
         public String getNom() {
-
+            /* Fonction: getNom
+             *  Paramètres: aucun
+             * Retour: String
+             * Description: Retourner le nom du joueur
+             * */
             //  Retourner le nom du joueur
             return nom;
         }
 
 
         public String getuuid(){
+            /* Fonction: uuid
+             *  Paramètres: aucun
+             * Retour: String
+             * Description: Retourner l'uuid du joueur
+             * */
+
             return uuid;
 
         }
