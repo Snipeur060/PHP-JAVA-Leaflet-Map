@@ -2,8 +2,7 @@ package fr.snipeurmap;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public final class SnipeurMap extends JavaPlugin {
     private Timer timerSendRequest;
@@ -32,6 +31,15 @@ public final class SnipeurMap extends JavaPlugin {
 
 
     }
+
+    private String sendRequest() {
+
+        //On récupere tous les joueurs connectés
+        Collection<? extends org.bukkit.entity.Player> players = getServer().getOnlinePlayers();
+
+    }
+
+
 
     @Override
     public void onDisable() {
