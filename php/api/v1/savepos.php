@@ -32,10 +32,10 @@ if (!empty($data)) {
     // Fermer le fichier
     fclose($file);
     //https://stackoverflow.com/questions/20620300/http-content-type-header-and-json
-    header("Content-Type: Application/Json")
+    header("Content-Type: Application/Json");
       echo '{"saved":"True"}';
 } else {
-     header("Content-Type: Application/Json")
+     header("Content-Type: Application/Json");
         echo '{"saved":"False"}';
 }
 
