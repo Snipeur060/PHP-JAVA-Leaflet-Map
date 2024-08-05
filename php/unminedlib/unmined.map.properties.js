@@ -1,5 +1,5 @@
 var UnminedMapProperties = {
-    minZoom: -2,
+    minZoom: -1,
     maxZoom: 2,
     defaultZoom: 0,
     imageFormat: "png",
