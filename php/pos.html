@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Affichage des positions des joueurs</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Fonction pour récupérer les positions des joueurs depuis l'API en PHP
+        function getPositions() {
+            $.ajax({
+                url: 'https://web.domain.fr/api/v1/showpos',
+                method: 'GET',
+                success: function(response) {
+                    // Mettre à jour l'affichage avec les positions récupérées
+                    $('#positions').html(response);
+                },
+                error: function() {
+                    console.log('Erreur lors de la récupération des positions.');
+                }
+            });
+        }
+
+        // Rafraîchir les positions toutes les 5 secondes
+        setInterval(getPositions, 5000);
+    </script>
+</head>
+<body>
+    <h1>Affichage des positions des joueurs</h1>
+    <div id="positions"></div>
+</body>
+</html>
