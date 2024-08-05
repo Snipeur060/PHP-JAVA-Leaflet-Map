@@ -1,4 +1,7 @@
 <?php
+/* INIT mysli conn
+$db = new mysqli(__SERVERNAME__, __username__, __password__);
+*/
 /*
 Sql DATABASE : (id,nom, x, y, z, heure,uuid)
 id : int Auto Increment
