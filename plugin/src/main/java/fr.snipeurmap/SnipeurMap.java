@@ -63,7 +63,7 @@ public final class SnipeurMap extends JavaPlugin {
 
         try {
             // Construire l'URL de l'API en PHP
-            URL url = new URL("https://api.domain.dmpo/api/v1/savepos");
+            URL url = new URL("https://web.domain.fr/api/v1/savepos");
 
             // Ouvrir la connexion HTTP
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -155,7 +155,7 @@ public final class SnipeurMap extends JavaPlugin {
         //envoyer une requête vide
         try{
             // Construire l'URL de l'API en PHP
-            URL url = new URL("https://api.domain.dmpo/api/v1/savepos");
+            URL url = new URL("https://web.domain.fr/api/v1/savepos");
 
             // Ouvrir la connexion HTTP
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
